@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="Apache Public License v2"
+[[mods]]
+modId="dynmapcreate"
+version="${file.jarVersion}"
+displayName="Dynmap-Create"
+credits=""
+authors="AdmiralFrijoles"
+description='''
+Dynmap integration with Create
+'''
+[[dependencies.dynmapcreate]] #optional
+    modId="forge"
+    mandatory=true
+    versionRange="[40,)"
+    ordering="NONE"
+    side="SERVER"
+[[dependencies.dynmapcreate]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2,1.19)"
+    ordering="NONE"
+    side="SERVER"
+[[dependencies.dynmapcreate]]
+    modId="dynmap"
+    mandatory=true
+    versionRange="[3.4,]"
+    ordering="NONE"
+    side="SERVER"
+[[dependencies.dynmapcreate]]
+    modId="create"
+    mandatory=true
+    versionRange="[0.5.0,]"
+    ordering="NONE"
+    side="SERVER"
