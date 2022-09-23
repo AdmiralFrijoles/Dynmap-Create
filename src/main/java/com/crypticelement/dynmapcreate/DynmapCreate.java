@@ -1,5 +1,6 @@
 package com.crypticelement.dynmapcreate;
 
+import com.crypticelement.dynmapcreate.content.TrackNetworkManager;
 import com.crypticelement.dynmapcreate.content.TrainMarkerManager;
 import com.crypticelement.dynmapcreate.setup.Config;
 import com.mojang.logging.LogUtils;
@@ -16,7 +17,8 @@ public class DynmapCreate {
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final TrainMarkerManager RAILWAYS = new TrainMarkerManager();
+    public static final TrainMarkerManager TRAINS = new TrainMarkerManager();
+    public static final TrackNetworkManager RAILWAYS = new TrackNetworkManager();
 
     public DynmapCreate() {
         // Make sure the mod being absent on the other network side does not

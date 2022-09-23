@@ -17,6 +17,7 @@ public class ForgeEventHandler {
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.START) return;
 
+        DynmapCreate.TRAINS.tick();
         DynmapCreate.RAILWAYS.tick();
     }
 }

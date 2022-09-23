@@ -14,7 +14,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-boolean dev = System.getenv('RELEASE') == null || System.getenv('RELEASE').equals('false')
+boolean dev = System.getenv('RELEASE') == null || System.getenv('RELEASE') == 'false'
 ext.buildNumber = System.getenv('BUILD_NUMBER')
 
 group = 'com.crypticelement.dynmapcreate'

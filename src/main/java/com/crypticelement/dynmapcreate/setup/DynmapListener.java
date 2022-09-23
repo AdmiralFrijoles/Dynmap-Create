@@ -9,6 +9,7 @@ public class DynmapListener extends DynmapCommonAPIListener {
     public void apiEnabled(DynmapCommonAPI dynmapCommonAPI) {
         DynmapCreate.LOGGER.info("Dynmap API enabled");
 
+        DynmapCreate.TRAINS.init(dynmapCommonAPI);
         DynmapCreate.RAILWAYS.init(dynmapCommonAPI);
     }
 }
