@@ -3,10 +3,8 @@ package com.crypticelement.dynmapcreate.content;
 import com.crypticelement.dynmapcreate.DynmapCreate;
 import com.crypticelement.dynmapcreate.DynmapHelpers;
 import com.crypticelement.dynmapcreate.setup.Config;
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.logistics.trains.entity.Train;
-import net.minecraft.core.Vec3i;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.phys.Vec3;
 import org.dynmap.DynmapCommonAPI;
@@ -68,6 +66,7 @@ public class TrainMarkerManager {
         trainMarkerSet = markerAPI.createMarkerSet(MARKERSET, marketSetLabel, null, false);
         trainMarkerSet.setLabelShow(Config.trainMarkerShowLabel.get());
         trainMarkerSet.setDefaultMarkerIcon(SteamLocomotiveMarkerIcons.getForColor(DyeColor.WHITE));
+        trainMarkerSet.setHideByDefault(Config.trainMarkersHidden.get());
     }
 
     public void tick() {
@@ -119,8 +118,8 @@ public class TrainMarkerManager {
     private void addTrainMarker(Train train) {
         var markerId = train.id.toString();
         var trainName = train.name.getString();
-        var trainColor = getTrainColor(train);
-        var icon = SteamLocomotiveMarkerIcons.getForColor(trainColor);
+        var trainWithCustomData = (TrainWithCustomData)train;
+        var icon = SteamLocomotiveMarkerIcons.getForColor(trainWithCustomData.getMapColor());
         var worldName = getTrainWorldName(train);
         var position = getTrainPosition(train);
         var description = getTrainMarkerDescription(train);
@@ -140,10 +139,13 @@ public class TrainMarkerManager {
         var worldName = getTrainWorldName(train);
         var position = getTrainPosition(train);
         var description = getTrainMarkerDescription(train);
+        var trainWithCustomData = (TrainWithCustomData)train;
+        var icon = SteamLocomotiveMarkerIcons.getForColor(trainWithCustomData.getMapColor());
 
         marker.setLabel(trainName);
         marker.setLocation(worldName, position.x, position.y, position.z);
         marker.setDescription(description);
+        marker.setMarkerIcon(icon);
     }
 
     private void removeTrainMarker(UUID trainId) {
@@ -184,52 +186,6 @@ public class TrainMarkerManager {
 
         trainNames.put(train.id, currentName);
         return !currentName.equals(previousName);
-    }
-
-    private DyeColor getTrainColor(Train train) {
-        // Attempts to determine the train's color based on the color
-        // of the closest seat block to the first control block found
-        Vec3i controlBlockPos = null;
-
-        // Find the first control block
-        for(var carriage : train.carriages) {
-            var entity = carriage.anyAvailableEntity();
-            if (entity == null) continue;
-            var contraption = entity.getContraption();
-            for (var entry : contraption.getBlocks().entrySet()) {
-                if (entry.getValue().state.is(AllBlocks.CONTROLS.get())) {
-                    controlBlockPos = entry.getKey();
-                }
-            }
-        }
-
-        // All trains are required to have a control block, but just in-case we don't find one...
-        if (controlBlockPos == null) {
-            return DyeColor.WHITE;
-        }
-
-        // Now find the closet seat to the control block
-        double minDist = Double.MAX_VALUE;
-        DyeColor minDistSeatColor = DyeColor.WHITE;
-        for(var carriage : train.carriages) {
-            var entity = carriage.anyAvailableEntity();
-            if (entity == null) continue;
-            var contraption = entity.getContraption();
-            for (var entry : contraption.getBlocks().entrySet()) {
-                for (var seatBlock : AllBlocks.SEATS) {
-                    if (entry.getValue().state.is(seatBlock.get())) {
-                        var dist = entry.getKey().distSqr(controlBlockPos);
-                        if (dist < minDist) {
-                            minDist = dist;
-                            minDistSeatColor = seatBlock.get().getColor();
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-
-        return minDistSeatColor;
     }
 
     private String getTrainWorldName(Train train) {

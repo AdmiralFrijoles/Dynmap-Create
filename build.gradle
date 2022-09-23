@@ -7,12 +7,14 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.parchmentmc:librarian:1.+'
+        classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
 
 boolean dev = System.getenv('RELEASE') == null || System.getenv('RELEASE') == 'false'
 ext.buildNumber = System.getenv('BUILD_NUMBER')
@@ -135,11 +137,28 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.80'
 
+
     runtimeOnly fg.deobf("com.jozufozu.flywheel:Flywheel-Forge:${flywheel_version}")
     implementation fg.deobf("com.simibubi.create:Create:${create_version}")
 
     runtimeOnly fg.deobf("org.dynmap:Dynmap:3.5-SNAPSHOT-forge-1.18.2")
     implementation "us.dynmap:DynmapCoreAPI:${dynmap_api_version}"
+
+    // Prevent Mixin annotation processor from getting into IntelliJ's annotation processor settings
+    // This allows 'Settings > Build, Execution, and Deployment > Build Tools > Gradle > Build and run using' set to IntelliJ to work correctly
+    if (System.getProperty('idea.sync.active') != 'true') {
+        annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    }
+}
+
+mixin {
+    add sourceSets.main, 'dynmapcreate.refmap.json'
+    config 'dynmap.mixins.json'
+}
+
+// Workaround for SpongePowered/MixinGradle#38
+afterEvaluate {
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
 }
 
 jar {

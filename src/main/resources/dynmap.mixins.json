@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.crypticelement.dynmapcreate.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "dynmapcreate.refmap.json",
+  "mixins": [
+    "TrainMixin",
+    "StationTileEntityMixin"
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}
