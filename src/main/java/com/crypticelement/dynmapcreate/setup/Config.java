@@ -7,6 +7,7 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Config {
     public static final String DEFAULT_TRAIN_MARKERSET_LABEL = "Trains";
     public static final String DEFAULT_RAILWAY_MARKERSET_LABEL = "Railways";
+    public static final String DEFAULT_STATION_MARKERSET_LABEL = "Train Stations";
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
@@ -24,6 +25,10 @@ public class Config {
     public static final ForgeConfigSpec.IntValue railwayMarkerLineWeight;
     public static final ForgeConfigSpec.BooleanValue railwayMarkersHidden;
 
+    public static final ForgeConfigSpec.BooleanValue stationMarkersEnabled;
+    public static final ForgeConfigSpec.ConfigValue<String> stationMarkerSetLabel;
+    public static final ForgeConfigSpec.BooleanValue stationMarkerShowLabel;
+    public static final ForgeConfigSpec.BooleanValue stationMarkersHidden;
 
 
     static {
@@ -42,6 +47,13 @@ public class Config {
         railwayMarkerOpacity = BUILDER.comment("The opacity of the rail lines.").defineInRange("lineOpacity", 1.0, 0.0, 1.0);
         railwayMarkerLineWeight = BUILDER.comment("The line weight for the rail lines.").defineInRange("lineWeight", 3, 1, 100);
         railwayMarkersHidden = BUILDER.comment("Should rail lines be hidden by default?").define("hideByDefault", false);
+        BUILDER.pop();
+
+        BUILDER.push("Train Station Markers");
+        stationMarkersEnabled = BUILDER.comment("Should the map track trains?").define("enabled", true);
+        stationMarkerSetLabel = BUILDER.comment("Name for marker set for trains.").define("markerSetLabel", DEFAULT_STATION_MARKERSET_LABEL);
+        stationMarkerShowLabel = BUILDER.comment("Should the train labels be shown by default?").define("showNames", true);
+        stationMarkersHidden = BUILDER.comment("Should train markers be hidden by default?").define("hideByDefault", false);
         BUILDER.pop();
         SPEC = BUILDER.build();
     }

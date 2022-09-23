@@ -11,5 +11,6 @@ public class DynmapListener extends DynmapCommonAPIListener {
 
         DynmapCreate.TRAINS.init(dynmapCommonAPI);
         DynmapCreate.RAILWAYS.init(dynmapCommonAPI);
+        DynmapCreate.STATIONS.init(dynmapCommonAPI);
     }
 }

@@ -19,5 +19,6 @@ public class ForgeEventHandler {
 
         DynmapCreate.TRAINS.tick();
         DynmapCreate.RAILWAYS.tick();
+        DynmapCreate.STATIONS.tick();
     }
 }

@@ -2,6 +2,7 @@ package com.crypticelement.dynmapcreate;
 
 import com.crypticelement.dynmapcreate.content.TrackNetworkManager;
 import com.crypticelement.dynmapcreate.content.TrainMarkerManager;
+import com.crypticelement.dynmapcreate.content.TrainStationMarkerManager;
 import com.crypticelement.dynmapcreate.setup.Config;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +20,7 @@ public class DynmapCreate {
 
     public static final TrainMarkerManager TRAINS = new TrainMarkerManager();
     public static final TrackNetworkManager RAILWAYS = new TrackNetworkManager();
+    public static final TrainStationMarkerManager STATIONS = new TrainStationMarkerManager();
 
     public DynmapCreate() {
         // Make sure the mod being absent on the other network side does not
