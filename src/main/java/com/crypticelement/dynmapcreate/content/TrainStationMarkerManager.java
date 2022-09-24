@@ -1,23 +1,18 @@
 package com.crypticelement.dynmapcreate.content;
 
-import com.crypticelement.dynmapcreate.DynmapCreate;
 import com.crypticelement.dynmapcreate.DynmapHelpers;
 import com.crypticelement.dynmapcreate.setup.Config;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.logistics.trains.management.edgePoint.EdgePointType;
 import com.simibubi.create.content.logistics.trains.management.edgePoint.station.GlobalStation;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import org.dynmap.DynmapCommonAPI;
 import org.dynmap.markers.MarkerAPI;
-import org.dynmap.markers.MarkerIcon;
 import org.dynmap.markers.MarkerSet;
 
 import java.util.*;
 
 public class TrainStationMarkerManager {
     private static final String MARKERSET = "create.stations";
-    private static final String ICON = "station_flag";
-    private static final String FALLBACKICON = "redflag";
 
     private MarkerAPI markerAPI = null;
     private MarkerSet stationMarkerSet = null;
@@ -46,29 +41,19 @@ public class TrainStationMarkerManager {
 
         String markerSetLabel = Config.stationMarkerSetLabel.get();
         if (markerSetLabel == null || markerSetLabel.isBlank())
-            markerSetLabel = "DEFAULT LABEL";
+            markerSetLabel = Config.DEFAULT_STATION_MARKERSET_LABEL;
 
         stationMarkerSet = markerAPI.createMarkerSet(MARKERSET, markerSetLabel, null, false);
         stationMarkerSet.setLabelShow(Config.stationMarkerShowLabel.get());
         stationMarkerSet.setHideByDefault(Config.stationMarkersHidden.get());
         stationMarkerSet.setLayerPriority(Config.stationMarkerLayer.get());
 
-        MarkerIcon icon;
-        try {
-            var iconRl = DynmapCreate.asResource("textures/markers/" + ICON + ".png");
-            var resource = ServerLifecycleHooks.getCurrentServer().getResourceManager().getResource(iconRl);
+        DynmapHelpers.createOrUpdateIcon(markerAPI, Config.STATION_ICON_SMALL, "Train Station Flag");
+        DynmapHelpers.createOrUpdateIcon(markerAPI, Config.STATION_ICON_LARGE, "Train Station Flag");
 
-            icon = markerAPI.getMarkerIcon(ICON);
-            if (icon != null) {
-                icon.setMarkerIconImage(resource.getInputStream());
-            } else {
-                icon = markerAPI.createMarkerIcon(ICON, "Station Flag", resource.getInputStream());
-            }
-        }
-        catch (Exception e) {
-            DynmapCreate.LOGGER.error("Failed to create marker with id: " + ICON, e);
-            icon = markerAPI.getMarkerIcon(FALLBACKICON);
-        }
+        var icon = markerAPI.getMarkerIcon(Config.stationMarkerIcon.get());
+        if (icon == null) icon = markerAPI.getMarkerIcon(Config.STATION_ICON_LARGE);
+
         stationMarkerSet.setDefaultMarkerIcon(icon);
     }
 

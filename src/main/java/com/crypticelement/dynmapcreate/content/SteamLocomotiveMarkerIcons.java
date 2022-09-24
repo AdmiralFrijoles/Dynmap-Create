@@ -1,9 +1,7 @@
 package com.crypticelement.dynmapcreate.content;
 
-import com.crypticelement.dynmapcreate.DynmapCreate;
-import net.minecraft.resources.ResourceLocation;
+import com.crypticelement.dynmapcreate.DynmapHelpers;
 import net.minecraft.world.item.DyeColor;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerIcon;
 
@@ -57,25 +55,8 @@ public class SteamLocomotiveMarkerIcons {
         return markerAPI.getMarkerIcon(STEAM_LOCOMOTIVE_MARKERS.get(color));
     }
 
-    private static ResourceLocation asResource(String name) {
-        return DynmapCreate.asResource("textures/markers/"+name+".png");
-    }
-
     private static void createMarker(MarkerAPI markerAPI, String id, DyeColor dyeColor, String label) {
-        try {
-            STEAM_LOCOMOTIVE_MARKERS.put(dyeColor, id);
-            var resourceLocation = asResource(id);
-            var resource = ServerLifecycleHooks.getCurrentServer().getResourceManager().getResource(resourceLocation);
-
-            var icon = markerAPI.getMarkerIcon(id);
-            if (icon != null) {
-                icon.setMarkerIconImage(resource.getInputStream());
-                icon.setMarkerIconLabel(label);
-            } else {
-                markerAPI.createMarkerIcon(id, label, resource.getInputStream());
-            }
-        } catch (Exception e) {
-            DynmapCreate.LOGGER.error("Failed to create marker with id: " + id, e);
-        }
+        STEAM_LOCOMOTIVE_MARKERS.put(dyeColor, id);
+        DynmapHelpers.createOrUpdateIcon(markerAPI, id, label);
     }
 }

@@ -9,6 +9,9 @@ public class Config {
     public static final String DEFAULT_RAILWAY_MARKERSET_LABEL = "Railways";
     public static final String DEFAULT_STATION_MARKERSET_LABEL = "Train Stations";
 
+    public static final String STATION_ICON_SMALL = "station_flag_small";
+    public static final String STATION_ICON_LARGE = "station_flag_large";
+
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
@@ -32,6 +35,7 @@ public class Config {
     public static final ForgeConfigSpec.BooleanValue stationMarkerShowLabel;
     public static final ForgeConfigSpec.BooleanValue stationMarkersHidden;
     public static final ForgeConfigSpec.IntValue stationMarkerLayer;
+    public static final ForgeConfigSpec.ConfigValue<String> stationMarkerIcon;
 
 
     static {
@@ -60,6 +64,7 @@ public class Config {
         stationMarkerShowLabel = BUILDER.comment("Should the train labels be shown by default?").define("showNames", true);
         stationMarkersHidden = BUILDER.comment("Should train markers be hidden by default?").define("hideByDefault", false);
         stationMarkerLayer = BUILDER.defineInRange("markerSetLayer", 95, 0, 9999);
+        stationMarkerIcon = BUILDER.comment("The icon to use for station markers.").define("markerIcon", STATION_ICON_LARGE);
         BUILDER.pop();
         SPEC = BUILDER.build();
     }
