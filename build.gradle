@@ -6,8 +6,8 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
         classpath 'org.spongepowered:mixingradle:0.7.+'
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -20,7 +20,7 @@ boolean dev = System.getenv('RELEASE') == null || System.getenv('RELEASE') == 'f
 ext.buildNumber = System.getenv('BUILD_NUMBER')
 
 group = 'com.crypticelement.dynmapcreate'
-archivesBaseName = "dynmapcreate-${artifact_minecraft_version}"
+archivesBaseName = "dynmapcreate-${minecraft_version}"
 version = mod_version + (dev && buildNumber != null ? "-${buildNumber}" : '')
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -44,9 +44,6 @@ minecraft {
 
             property 'forge.enabledGameTestNamespaces', 'dynmapcreate'
 
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
             mods {
                 dynmapcreate {
                     source sourceSets.main
@@ -63,9 +60,6 @@ minecraft {
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', 'dynmapcreate'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 dynmapcreate {
@@ -85,9 +79,6 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             property 'forge.enabledGameTestNamespaces', 'dynmapcreate'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 dynmapcreate {
@@ -125,6 +116,7 @@ repositories {
     }
 
     maven {
+        // Create repo
         name "tterrag maven"
         url "https://maven.tterrag.com/"
     }
@@ -137,12 +129,12 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.80'
 
-
-    runtimeOnly fg.deobf("com.jozufozu.flywheel:Flywheel-Forge:${flywheel_version}")
-    implementation fg.deobf("com.simibubi.create:Create:${create_version}")
-
     runtimeOnly fg.deobf("org.dynmap:Dynmap:3.5-SNAPSHOT-forge-1.18.2")
     implementation "us.dynmap:DynmapCoreAPI:${dynmap_api_version}"
+
+    implementation fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:all") { transitive = false }
+    implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${minecraft_version}:${flywheel_version}")
+    compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
     // Prevent Mixin annotation processor from getting into IntelliJ's annotation processor settings
     // This allows 'Settings > Build, Execution, and Deployment > Build Tools > Gradle > Build and run using' set to IntelliJ to work correctly
@@ -152,8 +144,8 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, 'dynmapcreate.refmap.json'
-    config 'dynmap.mixins.json'
+    add sourceSets.main, 'mixins.dynmapcreate.refmap.json'
+    config 'mixins.dynmapcreate.mixins.json'
 }
 
 // Workaround for SpongePowered/MixinGradle#38
@@ -170,7 +162,8 @@ jar {
                 "Implementation-Title"    : project.jar.baseName,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "Cryptic Element, LLC",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs"            : "mixins.dynmapcreate.mixins.json"
         ])
     }
 }
