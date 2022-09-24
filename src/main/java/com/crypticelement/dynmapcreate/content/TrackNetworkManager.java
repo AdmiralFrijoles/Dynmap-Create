@@ -86,11 +86,10 @@ public class TrackNetworkManager {
     }
 
     private String getEdgeId(TrackEdge edge) {
-        var p1 = edge.node1.getLocation().getLocation();
-        var p2 = edge.node2.getLocation().getLocation();
-        var worldName1 = DynmapHelpers.getWorldName(edge.node1.getLocation().dimension);
-        var worldName2 = DynmapHelpers.getWorldName(edge.node2.getLocation().dimension);
-        return String.format("%s:%f:%f:%f|%s:%f:%f:%f", worldName1, p1.x, p1.y, p1.z, worldName2, p2.x, p2.y, p2.z);
+        int hash = 31;
+        hash = 31 * hash + edge.node1.getLocation().hashCode();
+        hash = 31 * hash + edge.node2.getLocation().hashCode();
+        return String.valueOf(hash);
     }
 
     private void removeEdgeMarker(String id) {
