@@ -44,6 +44,7 @@ public class TrackNetworkManager {
 
         railwayMarkerSet = markerAPI.createMarkerSet(MARKERSET, marketSetLabel, null, false);
         railwayMarkerSet.setHideByDefault(Config.railwayMarkersHidden.get());
+        railwayMarkerSet.setLayerPriority(Config.railwayMarkerLayer.get());
     }
 
     public void tick() {

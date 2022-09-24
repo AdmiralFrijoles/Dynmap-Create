@@ -9,8 +9,6 @@ public class Config {
     public static final String DEFAULT_RAILWAY_MARKERSET_LABEL = "Railways";
     public static final String DEFAULT_STATION_MARKERSET_LABEL = "Train Stations";
 
-    public static final String DEFAULT_STATION_MARKER_ICON = "redflag";
-
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
@@ -19,6 +17,7 @@ public class Config {
     public static final ForgeConfigSpec.ConfigValue<String> trainNamePattern;
     public static final ForgeConfigSpec.BooleanValue trainMarkerShowLabel;
     public static final ForgeConfigSpec.BooleanValue trainMarkersHidden;
+    public static final ForgeConfigSpec.IntValue trainMarkerLayer;
 
     public static final ForgeConfigSpec.BooleanValue railwayMarkersEnabled;
     public static final ForgeConfigSpec.ConfigValue<String> railwayMarkerSetLabel;
@@ -26,12 +25,13 @@ public class Config {
     public static final ForgeConfigSpec.DoubleValue railwayMarkerOpacity;
     public static final ForgeConfigSpec.IntValue railwayMarkerLineWeight;
     public static final ForgeConfigSpec.BooleanValue railwayMarkersHidden;
+    public static final ForgeConfigSpec.IntValue railwayMarkerLayer;
 
     public static final ForgeConfigSpec.BooleanValue stationMarkersEnabled;
     public static final ForgeConfigSpec.ConfigValue<String> stationMarkerSetLabel;
     public static final ForgeConfigSpec.BooleanValue stationMarkerShowLabel;
     public static final ForgeConfigSpec.BooleanValue stationMarkersHidden;
-    public static final ForgeConfigSpec.ConfigValue<String> stationMarkerIcon;
+    public static final ForgeConfigSpec.IntValue stationMarkerLayer;
 
 
     static {
@@ -41,6 +41,7 @@ public class Config {
         trainNamePattern = BUILDER.comment("Regex pattern to filter trains that should have markers. Leave empty to show all trains.").define("trainNamePattern", "");
         trainMarkerShowLabel = BUILDER.comment("Should the train labels be shown by default?").define("showNames", true);
         trainMarkersHidden = BUILDER.comment("Should train markers be hidden by default?").define("hideByDefault", false);
+        trainMarkerLayer = BUILDER.defineInRange("markerSetLayer", 100, 0, 9999);
         BUILDER.pop();
 
         BUILDER.push("Railway Markers");
@@ -50,6 +51,7 @@ public class Config {
         railwayMarkerOpacity = BUILDER.comment("The opacity of the rail lines.").defineInRange("lineOpacity", 1.0, 0.0, 1.0);
         railwayMarkerLineWeight = BUILDER.comment("The line weight for the rail lines.").defineInRange("lineWeight", 3, 1, 100);
         railwayMarkersHidden = BUILDER.comment("Should rail lines be hidden by default?").define("hideByDefault", false);
+        railwayMarkerLayer = BUILDER.defineInRange("markerSetLayer", 90, 0, 9999);
         BUILDER.pop();
 
         BUILDER.push("Train Station Markers");
@@ -57,7 +59,7 @@ public class Config {
         stationMarkerSetLabel = BUILDER.comment("Name for marker set for trains.").define("markerSetLabel", DEFAULT_STATION_MARKERSET_LABEL);
         stationMarkerShowLabel = BUILDER.comment("Should the train labels be shown by default?").define("showNames", true);
         stationMarkersHidden = BUILDER.comment("Should train markers be hidden by default?").define("hideByDefault", false);
-        stationMarkerIcon = BUILDER.comment("The Dynmap icon that should be used for station markers.").define("markerIcon", DEFAULT_STATION_MARKER_ICON);
+        stationMarkerLayer = BUILDER.defineInRange("markerSetLayer", 95, 0, 9999);
         BUILDER.pop();
         SPEC = BUILDER.build();
     }

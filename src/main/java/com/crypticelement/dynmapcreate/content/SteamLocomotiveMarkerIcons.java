@@ -66,7 +66,14 @@ public class SteamLocomotiveMarkerIcons {
             STEAM_LOCOMOTIVE_MARKERS.put(dyeColor, id);
             var resourceLocation = asResource(id);
             var resource = ServerLifecycleHooks.getCurrentServer().getResourceManager().getResource(resourceLocation);
-            markerAPI.createMarkerIcon(id, label, resource.getInputStream());
+
+            var icon = markerAPI.getMarkerIcon(id);
+            if (icon != null) {
+                icon.setMarkerIconImage(resource.getInputStream());
+                icon.setMarkerIconLabel(label);
+            } else {
+                markerAPI.createMarkerIcon(id, label, resource.getInputStream());
+            }
         } catch (Exception e) {
             DynmapCreate.LOGGER.error("Failed to create marker with id: " + id, e);
         }

@@ -67,6 +67,7 @@ public class TrainMarkerManager {
         trainMarkerSet.setLabelShow(Config.trainMarkerShowLabel.get());
         trainMarkerSet.setDefaultMarkerIcon(SteamLocomotiveMarkerIcons.getForColor(DyeColor.WHITE));
         trainMarkerSet.setHideByDefault(Config.trainMarkersHidden.get());
+        trainMarkerSet.setLayerPriority(Config.trainMarkerLayer.get());
     }
 
     public void tick() {
