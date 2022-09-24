@@ -46,6 +46,11 @@ public class TrainStationMarkerManager {
         stationMarkerSet = markerAPI.createMarkerSet(MARKERSET, markerSetLabel, null, false);
         stationMarkerSet.setLabelShow(Config.stationMarkerShowLabel.get());
         stationMarkerSet.setHideByDefault(Config.stationMarkersHidden.get());
+
+        var icon = markerAPI.getMarkerIcon(Config.stationMarkerIcon.get());
+        if (icon == null)
+            icon = markerAPI.getMarkerIcon(Config.DEFAULT_STATION_MARKER_ICON);
+        stationMarkerSet.setDefaultMarkerIcon(icon);
     }
 
     public void tick() {

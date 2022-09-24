@@ -9,6 +9,8 @@ public class Config {
     public static final String DEFAULT_RAILWAY_MARKERSET_LABEL = "Railways";
     public static final String DEFAULT_STATION_MARKERSET_LABEL = "Train Stations";
 
+    public static final String DEFAULT_STATION_MARKER_ICON = "redflag";
+
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
@@ -29,6 +31,7 @@ public class Config {
     public static final ForgeConfigSpec.ConfigValue<String> stationMarkerSetLabel;
     public static final ForgeConfigSpec.BooleanValue stationMarkerShowLabel;
     public static final ForgeConfigSpec.BooleanValue stationMarkersHidden;
+    public static final ForgeConfigSpec.ConfigValue<String> stationMarkerIcon;
 
 
     static {
@@ -54,6 +57,7 @@ public class Config {
         stationMarkerSetLabel = BUILDER.comment("Name for marker set for trains.").define("markerSetLabel", DEFAULT_STATION_MARKERSET_LABEL);
         stationMarkerShowLabel = BUILDER.comment("Should the train labels be shown by default?").define("showNames", true);
         stationMarkersHidden = BUILDER.comment("Should train markers be hidden by default?").define("hideByDefault", false);
+        stationMarkerIcon = BUILDER.comment("The Dynmap icon that should be used for station markers.").define("markerIcon", DEFAULT_STATION_MARKER_ICON);
         BUILDER.pop();
         SPEC = BUILDER.build();
     }
