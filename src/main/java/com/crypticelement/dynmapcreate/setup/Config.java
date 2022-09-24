@@ -59,10 +59,10 @@ public class Config {
         BUILDER.pop();
 
         BUILDER.push("Train Station Markers");
-        stationMarkersEnabled = BUILDER.comment("Should the map track trains?").define("enabled", true);
-        stationMarkerSetLabel = BUILDER.comment("Name for marker set for trains.").define("markerSetLabel", DEFAULT_STATION_MARKERSET_LABEL);
-        stationMarkerShowLabel = BUILDER.comment("Should the train labels be shown by default?").define("showNames", true);
-        stationMarkersHidden = BUILDER.comment("Should train markers be hidden by default?").define("hideByDefault", false);
+        stationMarkersEnabled = BUILDER.comment("Should the map track stations?").define("enabled", true);
+        stationMarkerSetLabel = BUILDER.comment("Name for marker set for stations.").define("markerSetLabel", DEFAULT_STATION_MARKERSET_LABEL);
+        stationMarkerShowLabel = BUILDER.comment("Should the station labels be shown by default?").define("showNames", true);
+        stationMarkersHidden = BUILDER.comment("Should station markers be hidden by default?").define("hideByDefault", false);
         stationMarkerLayer = BUILDER.defineInRange("markerSetLayer", 95, 0, 9999);
         stationMarkerIcon = BUILDER.comment("The icon to use for station markers.").define("markerIcon", STATION_ICON_LARGE);
         BUILDER.pop();
