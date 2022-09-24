@@ -79,8 +79,8 @@ public class TrainMarkerManager {
         var allTrains = Create.RAILWAYS.trains;
 
         // Remove cached info for trains that no longer exist
-        invalidTrains.removeAll(allTrains.keySet());
-        trainNames.keySet().removeAll(allTrains.keySet());
+        invalidTrains.retainAll(allTrains.keySet());
+        trainNames.keySet().retainAll(allTrains.keySet());
 
         // Check if invalid trains are now valid.
         invalidTrains.removeIf(trainId -> {
@@ -175,7 +175,7 @@ public class TrainMarkerManager {
 
         var trainName = train.name.getString();
         var matcher = trainNamePattern.matcher(trainName);
-        return matcher.matches();
+        return matcher.lookingAt();
     }
 
     private boolean hasTrainNameChanged(Train train) {
