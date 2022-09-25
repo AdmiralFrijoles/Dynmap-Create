@@ -1,4 +1,4 @@
-package com.crypticelement.dynmapcreate.content;
+package com.crypticelement.dynmapcreate.content.markers;
 
 import com.crypticelement.dynmapcreate.DynmapHelpers;
 import com.crypticelement.dynmapcreate.setup.Config;

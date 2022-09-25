@@ -1,8 +1,8 @@
 package com.crypticelement.dynmapcreate;
 
-import com.crypticelement.dynmapcreate.content.TrackNetworkManager;
-import com.crypticelement.dynmapcreate.content.TrainMarkerManager;
-import com.crypticelement.dynmapcreate.content.TrainStationMarkerManager;
+import com.crypticelement.dynmapcreate.content.markers.TrackNetworkManager;
+import com.crypticelement.dynmapcreate.content.markers.TrainMarkerManager;
+import com.crypticelement.dynmapcreate.content.markers.TrainStationMarkerManager;
 import com.crypticelement.dynmapcreate.setup.Config;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
