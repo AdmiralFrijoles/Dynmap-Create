@@ -8,6 +8,8 @@ import org.dynmap.DynmapCommonAPIListener;
 
 @Mod.EventBusSubscriber(modid = DynmapCreate.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventHandler {
+    private static int tickTimer = 0;
+
     @SubscribeEvent
     public static void onServerStarting(ServerStartingEvent event) {
         DynmapCommonAPIListener.register(new DynmapListener());
@@ -16,9 +18,11 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.START) return;
-
-        DynmapCreate.TRAINS.tick();
-        DynmapCreate.RAILWAYS.tick();
-        DynmapCreate.STATIONS.tick();
+        if (--tickTimer <= 0) {
+            DynmapCreate.TRAINS.tick();
+            DynmapCreate.RAILWAYS.tick();
+            DynmapCreate.STATIONS.tick();
+            tickTimer = 20;
+        }
     }
 }
